@@ -1,0 +1,2310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawgress - Redirecting...</title>
+    <style>
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFEFD5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .message {
+            text-align: center;
+            color: #6C6A66;
+        }
+        .message h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        // Redirect to the appropriate page based on user state
+        window.onload = function() {
+            // Check if user is logged in
+            const userEmail = localStorage.getItem('pawgress_user_email');
+            const selectedAnimal = localStorage.getItem('pawgress_selected_animal');
+            
+            if (userEmail && selectedAnimal) {
+                window.location.href = 'dashboard.html';
+            } else if (userEmail) {
+                window.location.href = 'select-animal.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        };
+    </script>
+
+        /* Login Page Styles */
+        .login-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .login-page.hidden {
+            transform: translateY(-100%);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 48px;
+            color: #6C6A66;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-paw {
+            width: 40px;
+            height: 40px;
+            transform: rotate(15deg);
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 340px;
+        }
+
+        .login-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #6C6A66;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-field-login {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(224, 202, 239, 0.4);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Crimson Text', serif;
+            font-size: 16px;
+            color: #6C6A66;
+            outline: none;
+            transition: background 0.2s;
+        }
+
+        .input-field-login::placeholder {
+            color: #6C6A66;
+            opacity: 0.6;
+        }
+
+        .input-field-login:focus {
+            background: rgba(224, 202, 239, 0.6);
+        }
+
+        .login-form.form-filled .input-field-login {
+            background: #E0CAEF;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #6C6A66;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 18px;
+            background: #E0CAEF;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Crimson Text', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            cursor: not-allowed;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+
+        .login-form.form-filled .login-button {
+            background: #B95DFB;
+            cursor: pointer;
+        }
+
+        .login-form.form-filled .login-button:hover {
+            background: #A84EEB;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(185, 93, 251, 0.4);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            font-size: 14px;
+            color: #6C6A66;
+            opacity: 0.6;
+        }
+
+        .google-button {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px solid #E0CAEF;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .google-button:hover {
+            background: #F9F9F9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .google-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .google-text {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Main Pages Styles */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: transform 0.3s ease;
+            transform: translateY(100%);
+            z-index: 1;
+        }
+
+        .page.active {
+            transform: translateY(0);
+            z-index: 2;
+        }
+
+        .page.hidden-left {
+            transform: translateX(-100%);
+            z-index: 1;
+        }
+
+        .page.hidden-right {
+            transform: translateX(100%);
+            z-index: 1;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px 10px;
+        }
+
+        .icon {
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .date-badge {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .date-badge:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .date-badge span {
+            color: #7B68EE;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .calendar-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .header {
+            padding: 30px 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .paw-icon {
+            width: 32px;
+            height: 32px;
+            opacity: 0.6;
+        }
+
+        .content {
+            padding: 20px;
+            min-height: 350px;
+        }
+
+        .input-container {
+            background: white;
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+        }
+
+        .input-container.active {
+            display: flex;
+        }
+
+        .input-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .fab {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 64px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .fab.hidden {
+            transform: translateX(-50%) scale(0);
+            opacity: 0;
+        }
+
+        .plus-icon {
+            font-size: 32px;
+            color: #7B68EE;
+            font-weight: 300;
+        }
+
+        .keyboard {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #D1D5DB;
+            padding: 8px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .keyboard.active {
+            transform: translateY(0);
+        }
+
+        .keyboard-toolbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            background: #F3F4F6;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 4px;
+        }
+
+        .toolbar-icon {
+            font-size: 12px;
+            padding: 4px 8px;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .key {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            min-width: 32px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            user-select: none;
+        }
+
+        .key:active {
+            background: #E5E7EB;
+        }
+
+        .key.wide {
+            flex: 1.5;
+        }
+
+        .key.space {
+            flex: 4;
+        }
+
+        .list-item {
+            background: transparent;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            animation: slideIn 0.3s ease;
+            position: relative;
+            overflow: visible;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideOut {
+            to {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+        }
+
+        .list-item-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-item-content {
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+            cursor: grab;
+        }
+
+        .list-item-content:active {
+            cursor: grabbing;
+        }
+
+        .list-item.swiped .list-item-content {
+            transform: translateX(-80px);
+        }
+
+        .task-card {
+            background: #FFFEF4;
+            border: 1px solid #E0CAEF;
+            border-radius: 15px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        .task-card.completed {
+            background: #FFF694;
+        }
+
+        .checkbox {
+            width: 39.48px;
+            height: 39.48px;
+            border: 1.5px solid #807D78;
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .checkbox:hover {
+            border-color: #6C6A66;
+            background: rgba(128, 125, 120, 0.05);
+        }
+
+        .checkbox.checked {
+            background: transparent;
+        }
+
+        .paw-check-icon {
+            width: 24px;
+            height: 24px;
+            display: none;
+        }
+
+        .checkbox.checked .paw-check-icon {
+            display: block;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .list-item-text {
+            flex: 1;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: #000000;
+            line-height: 1.4;
+        }
+
+        .delete-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            background: #EF4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 15px 15px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+            z-index: 1;
+        }
+
+        .delete-button:hover {
+            background: #DC2626;
+        }
+
+        .delete-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        /* Profile Page Styles */
+        .back-button {
+            width: 48px;
+            height: 48px;
+            background: rgba(224, 202, 239, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background: rgba(224, 202, 239, 0.8);
+        }
+
+        .profile-header {
+            padding: 30px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .profile-content {
+            padding: 20px;
+            overflow-y: auto;
+            height: calc(100% - 120px);
+        }
+
+        .premium-banner {
+            background: linear-gradient(135deg, rgba(224, 202, 239, 0.3), rgba(230, 215, 245, 0.3));
+            border: 2px solid #B8A0D4;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .premium-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .premium-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .section-header {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 12px;
+            margin-top: 10px;
+            padding-left: 4px;
+        }
+
+        .menu-group {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: #F9F9F9;
+        }
+
+        .menu-item-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            color: #666;
+        }
+
+        .menu-item-label {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .menu-item-arrow {
+            width: 20px;
+            height: 20px;
+            color: #999;
+        }
+
+        .logout-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            color: #666;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .logout-button:hover {
+            color: #333;
+        }
+
+        .logout-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Select Animal Page Styles */
+        .select-animal-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 40px 40px;
+            transition: transform 0.3s ease;
+            transform: translateY(100%);
+            z-index: 1;
+        }
+
+        .select-animal-page.active {
+            transform: translateY(0);
+            z-index: 2;
+        }
+
+        .select-animal-page.hidden {
+            transform: translateY(-100%);
+        }
+
+        .select-animal-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #6C6A66;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .animal-list {
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .animal-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .animal-item:hover {
+            transform: translateX(4px);
+        }
+
+        .animal-item.selected {
+            border: 2px solid #9B87F5;
+        }
+
+        .animal-item.selected.koko {
+            background: #D0E7E8;
+        }
+
+        .animal-item.selected.bobo {
+            background: #D6D0E8;
+        }
+
+        .animal-item.selected.gigi {
+            background: #E8D0DC;
+        }
+
+        .animal-item.selected.fifi {
+            background: #D0E8DA;
+        }
+
+        .animal-icon-box {
+            width: 65px;
+            height: 55px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .animal-icon-box.koko {
+            background: #D0E7E8;
+        }
+
+        .animal-icon-box.bobo {
+            background: #D6D0E8;
+        }
+
+        .animal-icon-box.gigi {
+            background: #E8D0DC;
+        }
+
+        .animal-icon-box.fifi {
+            background: #D0E8DA;
+        }
+
+        .animal-emoji {
+            font-size: 32px;
+        }
+
+        .animal-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #6C6A66;
+            flex: 1;
+        }
+
+        .begin-button {
+            width: 100%;
+            max-width: 340px;
+            padding: 18px;
+            background: #E0CAEF;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Crimson Text', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            cursor: not-allowed;
+            margin-top: auto;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .begin-button.active {
+            background: #B95DFB;
+            cursor: pointer;
+        }
+
+        .begin-button.active:hover {
+            background: #A84EEB;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(185, 93, 251, 0.4);
+        }
+
+        /* Get Praise Styles */
+        .praise-button {
+            position: absolute;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            padding: 12px 24px;
+            background: linear-gradient(90deg, rgba(98, 0, 234, 0.3) 0%, rgba(0, 176, 255, 0.3) 100%);
+            border: none;
+            border-radius: 24px;
+            font-family: 'Crimson Text', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6C6A66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+        }
+
+        .praise-button.visible {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        .praise-button:hover {
+            transform: translateX(-50%) scale(1.05) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(98, 0, 234, 0.2);
+        }
+
+        .praise-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Praise Popup */
+        .praise-popup {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .praise-popup.active {
+            display: flex;
+        }
+
+        .praise-card {
+            background: linear-gradient(90deg, rgba(98, 0, 234, 0.3) 15%, rgba(0, 176, 255, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: slideUpCard 0.4s ease-out;
+            position: relative;
+            max-width: 320px;
+        }
+
+        @keyframes slideUpCard {
+            from {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .praise-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: #555CA3;
+            text-align: center;
+        }
+
+        .praise-body-text {
+            font-size: 16px;
+            color: #4A4A4A;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .praise-checkmark-button {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            width: 48px;
+            height: 48px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            transition: all 0.2s;
+        }
+
+        .praise-checkmark-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+        }
+
+        .praise-animal-display {
+            width: 100px;
+            height: 80px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .praise-animal-emoji {
+            font-size: 48px;
+        }
+
+        .success-message {
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #6C6A66;
+            margin-bottom: 8px;
+        }
+
+        .success-subtitle {
+            font-size: 16px;
+            color: #6C6A66;
+            opacity: 0.8;
+        }
+
+        /* Saved Praises Page */
+        .saved-praises-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #FFFCD8;
+            transition: transform 0.3s ease;
+            transform: translateX(100%);
+            z-index: 3;
+            overflow-y: auto;
+        }
+
+        .saved-praises-page.active {
+            transform: translateX(0);
+        }
+
+        .praise-list-header {
+            padding: 30px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .praise-list-content {
+            padding: 20px;
+        }
+
+        .praise-card-item {
+            background: #FFFEF4;
+            border: 1px solid #E0CAEF;
+            border-radius: 15px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .praise-card-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .praise-icon-circle {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            border-radius: 50%;
+            background: rgba(224, 202, 239, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .praise-card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .praise-card-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 15px;
+            color: #4A4A4A;
+            line-height: 1.5;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .praise-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .praise-card-animal {
+            font-weight: 600;
+            color: #6C6A66;
+        }
+
+        /* Praise Detail Modal */
+        .praise-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .praise-detail-modal.active {
+            display: flex;
+        }
+
+        .praise-detail-card {
+            background: #FFFFFF;
+            border: 2px solid #E0CAEF;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            animation: modalPopIn 0.3s ease-out;
+        }
+
+        @keyframes modalPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .praise-detail-icon {
+            width: 64px;
+            height: 64px;
+        }
+
+        .praise-detail-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 17px;
+            color: #4A4A4A;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .praise-detail-footer {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Crimson Text', serif;
+            font-size: 14px;
+            color: #6C6A66;
+        }
+
+        .praise-detail-signature {
+            font-weight: 600;
+        }
+
+        .praise-detail-date {
+            color: #999;
+        }
+
+        /* Calendar Modal */
+        .calendar-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .calendar-modal.active {
+            display: flex;
+        }
+
+        .calendar-container {
+            background: #F5F0FF;
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 90%;
+            max-width: 440px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 3px solid #6D55FF;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-nav-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .calendar-nav-btn:hover {
+            background: rgba(109, 85, 255, 0.1);
+        }
+
+        .calendar-month-year {
+            font-size: 18px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-weekday {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+            padding: 8px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            background: rgba(109, 85, 255, 0.1);
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+
+        .calendar-day.selected {
+            background: #6D55FF;
+            color: white;
+            font-weight: 600;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #6D55FF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Page -->
+        <div class="login-page" id="loginPage">
+            <div class="logo-section">
+                <div class="logo-text">
+                    Pawgress
+                    <svg class="logo-paw" viewBox="0 0 24 24" fill="#6C6A66">
+                        <circle cx="12" cy="10" r="3"></circle>
+                        <circle cx="7" cy="7" r="2"></circle>
+                        <circle cx="17" cy="7" r="2"></circle>
+                        <circle cx="7" cy="13" r="2"></circle>
+                        <circle cx="17" cy="13" r="2"></circle>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="login-form" id="loginForm">
+                <h1 class="login-title">Login</h1>
+                
+                <div class="input-group">
+                    <input type="email" class="input-field-login" placeholder="Email Address" id="emailInput">
+                </div>
+
+                <div class="input-group">
+                    <input type="password" class="input-field-login" placeholder="Password" id="passwordInput">
+                    <a class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button class="login-button" id="loginButton">Login</button>
+
+                <div class="divider">Or login with</div>
+
+                <button class="google-button">
+                    <svg class="google-icon" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span class="google-text">Google</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Select Animal Page -->
+        <div class="select-animal-page" id="selectAnimalPage">
+            <h1 class="select-animal-title">Select Your<br>Company Animal</h1>
+            
+            <div class="animal-list">
+                <div class="animal-item koko" data-animal="koko">
+                    <div class="animal-icon-box koko">
+                        <span class="animal-emoji">🐨</span>
+                    </div>
+                    <div class="animal-name">Koko</div>
+                </div>
+
+                <div class="animal-item bobo" data-animal="bobo">
+                    <div class="animal-icon-box bobo">
+                        <span class="animal-emoji">🐰</span>
+                    </div>
+                    <div class="animal-name">Bobo</div>
+                </div>
+
+                <div class="animal-item gigi" data-animal="gigi">
+                    <div class="animal-icon-box gigi">
+                        <span class="animal-emoji">🦒</span>
+                    </div>
+                    <div class="animal-name">Gigi</div>
+                </div>
+
+                <div class="animal-item fifi" data-animal="fifi">
+                    <div class="animal-icon-box fifi">
+                        <span class="animal-emoji">🐸</span>
+                    </div>
+                    <div class="animal-name">Fifi</div>
+                </div>
+            </div>
+
+            <button class="begin-button" id="beginButton" disabled>
+                Begin
+                <svg viewBox="0 0 24 24" fill="white" style="width: 20px; height: 20px;">
+                    <circle cx="12" cy="10" r="2"></circle>
+                    <circle cx="7" cy="7" r="1.5"></circle>
+                    <circle cx="17" cy="7" r="1.5"></circle>
+                    <circle cx="7" cy="13" r="1.5"></circle>
+                    <circle cx="17" cy="13" r="1.5"></circle>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Main Page (Dashboard) -->
+        <div class="page" id="mainPage">
+            <div class="top-bar">
+                <svg class="icon" id="profileNavIcon" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2">
+                    <path d="M5 3l7 7-7 7M12 3l7 7-7 7"></path>
+                </svg>
+                
+                <div class="date-badge" id="dateBadge">
+                    <span id="dateText">2025.12.05</span>
+                    <svg class="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="#7B68EE" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+
+                <svg class="icon" id="dashboardRightIcon" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 8v4l3 3"></path>
+                </svg>
+            </div>
+
+            <div class="header">
+                <div class="title">Today's Done List</div>
+                <svg class="paw-icon" viewBox="0 0 24 24" fill="#999">
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <circle cx="7" cy="7" r="2"></circle>
+                    <circle cx="17" cy="7" r="2"></circle>
+                    <circle cx="7" cy="13" r="2"></circle>
+                    <circle cx="17" cy="13" r="2"></circle>
+                </svg>
+            </div>
+
+            <div class="content">
+                <div class="input-container" id="inputContainer">
+                    <input type="text" class="input-field" id="inputField" placeholder="What did you accomplish today?">
+                </div>
+                <div id="listItems"></div>
+            </div>
+
+            <div class="fab" id="fab">
+                <div class="plus-icon">+</div>
+            </div>
+
+            <button class="praise-button" id="praiseButton">
+                <svg class="praise-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="10" r="2"></circle>
+                    <circle cx="7" cy="7" r="1.5"></circle>
+                    <circle cx="17" cy="7" r="1.5"></circle>
+                    <circle cx="7" cy="13" r="1.5"></circle>
+                    <circle cx="17" cy="13" r="1.5"></circle>
+                </svg>
+                Get Praise
+            </button>
+
+            <div class="keyboard" id="keyboard">
+                <div class="keyboard-toolbar">
+                    <div class="toolbar-icon">GIF</div>
+                    <div class="toolbar-icon">⚙️</div>
+                    <div class="toolbar-icon">🌐</div>
+                    <div class="toolbar-icon">😊</div>
+                    <div class="toolbar-icon">🎤</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">Q</div>
+                    <div class="key">W</div>
+                    <div class="key">E</div>
+                    <div class="key">R</div>
+                    <div class="key">T</div>
+                    <div class="key">Y</div>
+                    <div class="key">U</div>
+                    <div class="key">I</div>
+                    <div class="key">O</div>
+                    <div class="key">P</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">A</div>
+                    <div class="key">S</div>
+                    <div class="key">D</div>
+                    <div class="key">F</div>
+                    <div class="key">G</div>
+                    <div class="key">H</div>
+                    <div class="key">J</div>
+                    <div class="key">K</div>
+                    <div class="key">L</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wide">⇧</div>
+                    <div class="key">Z</div>
+                    <div class="key">X</div>
+                    <div class="key">C</div>
+                    <div class="key">V</div>
+                    <div class="key">B</div>
+                    <div class="key">N</div>
+                    <div class="key">M</div>
+                    <div class="key wide">⌫</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wide">123</div>
+                    <div class="key space">space</div>
+                    <div class="key wide">return</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page" id="profilePage">
+            <div class="top-bar">
+                <div class="back-button" id="backButton">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="width: 20px; height: 20px;">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="profile-header">
+                <div class="title">My Profile</div>
+                <svg class="paw-icon" viewBox="0 0 24 24" fill="#999">
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <circle cx="7" cy="7" r="2"></circle>
+                    <circle cx="17" cy="7" r="2"></circle>
+                    <circle cx="7" cy="13" r="2"></circle>
+                    <circle cx="17" cy="13" r="2"></circle>
+                </svg>
+            </div>
+
+            <div class="profile-content">
+                <div class="premium-banner">
+                    <div class="premium-title">Premium Membership</div>
+                    <div class="premium-subtitle">Upgrade for more features</div>
+                </div>
+
+                <div class="section-header">Settings</div>
+                <div class="menu-group">
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="menu-item-label">Profile</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <div class="menu-item-label">Password</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <div class="menu-item-label">Notifications</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section-header">More</div>
+                <div class="menu-group">
+                    <div class="menu-item" id="yourPraisesLink">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                        <div class="menu-item-label">Your Praises</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <div class="menu-item-label">Rate & Review</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <div class="menu-item-label">Help</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="logout-button" id="logoutButton">
+                    <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Log out</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saved Praises Page -->
+        <div class="saved-praises-page" id="savedPraisesPage">
+            <div class="top-bar">
+                <div class="back-button" id="praisesBackButton">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="width: 20px; height: 20px;">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="praise-list-header">
+                <div class="title">Your Praises</div>
+                <svg class="paw-icon" viewBox="0 0 24 24" fill="#999">
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <circle cx="7" cy="7" r="2"></circle>
+                    <circle cx="17" cy="7" r="2"></circle>
+                    <circle cx="7" cy="13" r="2"></circle>
+                    <circle cx="17" cy="13" r="2"></circle>
+                </svg>
+            </div>
+
+            <div class="praise-list-content" id="praiseListContent">
+                <!-- Praise cards will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Praise Detail Modal -->
+        <div class="praise-detail-modal" id="praiseDetailModal">
+            <div class="praise-detail-card" id="praiseDetailCard">
+                <!-- Detail content will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Praise Popup -->
+        <div class="praise-popup" id="praisePopup">
+            <div class="praise-card" id="praiseCard">
+                <!-- Will be filled dynamically -->
+            </div>
+        </div>
+
+        <!-- Calendar Modal -->
+        <div class="calendar-modal" id="calendarModal">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="calendar-nav-btn" id="prevMonth">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="width: 20px; height: 20px;">
+                            <path d="M15 18l-6-6 6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="calendar-month-year" id="monthYear">December 2025</div>
+                    <div class="calendar-nav-btn" id="nextMonth">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="width: 20px; height: 20px;">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <div class="calendar-weekday">Sun</div>
+                    <div class="calendar-weekday">Mon</div>
+                    <div class="calendar-weekday">Tue</div>
+                    <div class="calendar-weekday">Wed</div>
+                    <div class="calendar-weekday">Thu</div>
+                    <div class="calendar-weekday">Fri</div>
+                    <div class="calendar-weekday">Sat</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginPage = document.getElementById('loginPage');
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const selectAnimalPage = document.getElementById('selectAnimalPage');
+        const mainPage = document.getElementById('mainPage');
+        const profilePage = document.getElementById('profilePage');
+        const loginButton = document.getElementById('loginButton');
+        const beginButton = document.getElementById('beginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const profileNavIcon = document.getElementById('profileNavIcon');
+        const backButton = document.getElementById('backButton');
+        const fab = document.getElementById('fab');
+        const keyboard = document.getElementById('keyboard');
+        const inputContainer = document.getElementById('inputContainer');
+        const inputField = document.getElementById('inputField');
+        const listItems = document.getElementById('listItems');
+        const dateBadge = document.getElementById('dateBadge');
+        const dateText = document.getElementById('dateText');
+        const calendarModal = document.getElementById('calendarModal');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const monthYear = document.getElementById('monthYear');
+        const prevMonth = document.getElementById('prevMonth');
+        const nextMonth = document.getElementById('nextMonth');
+        const praiseButton = document.getElementById('praiseButton');
+        const praisePopup = document.getElementById('praisePopup');
+        const praiseCard = document.getElementById('praiseCard');
+        const savedPraisesPage = document.getElementById('savedPraisesPage');
+        const yourPraisesLink = document.getElementById('yourPraisesLink');
+        const praisesBackButton = document.getElementById('praisesBackButton');
+        const praiseListContent = document.getElementById('praiseListContent');
+        const praiseDetailModal = document.getElementById('praiseDetailModal');
+        const praiseDetailCard = document.getElementById('praiseDetailCard');
+        const dashboardRightIcon = document.getElementById('dashboardRightIcon');
+        
+        let isInputActive = false;
+        let currentDate = new Date(2025, 11, 5);
+        let selectedDate = new Date(2025, 11, 5);
+        let selectedAnimal = null;
+        let completedTasks = 0;
+        let hasCompletedTask = false;
+        let cameFromProfile = false;
+
+        // Animal data
+        const animals = {
+            koko: { emoji: '🐨', name: 'Koko', color: '#D0E7E8' },
+            bobo: { emoji: '🐰', name: 'Bobo', color: '#D6D0E8' },
+            gigi: { emoji: '🦒', name: 'Gigi', color: '#E8D0DC' },
+            fifi: { emoji: '🐸', name: 'Fifi', color: '#D0E8DA' }
+        };
+
+        // Dummy praise data
+        const savedPraises = [
+            {
+                text: "Great job on completing your task! Every small step counts toward building better habits. Keep up the amazing work!",
+                date: "2025.12.05",
+                animal: "Koko"
+            },
+            {
+                text: "You're making excellent progress! Remember, consistency is key to success. I'm so proud of you!",
+                date: "2025.12.04",
+                animal: "Bobo"
+            },
+            {
+                text: "Amazing dedication! Your commitment to self-improvement is truly inspiring. Keep moving forward!",
+                date: "2025.12.03",
+                animal: "Gigi"
+            },
+            {
+                text: "Fantastic work today! Every accomplishment, no matter how small, is a victory worth celebrating. You're doing great!",
+                date: "2025.12.02",
+                animal: "Fifi"
+            },
+            {
+                text: "Well done! Your persistence and hard work are paying off. Continue to believe in yourself!",
+                date: "2025.12.01",
+                animal: "Koko"
+            }
+        ];
+
+        // Icon options for random assignment
+        const praiseIcons = [
+            '<svg viewBox="0 0 24 24" fill="#E0CAEF" stroke="#B8A0D4" stroke-width="1.5" style="width: 24px; height: 24px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
+            '<svg viewBox="0 0 24 24" fill="#E0CAEF" stroke="#B8A0D4" stroke-width="1.5" style="width: 24px; height: 24px;"><path d="M12 2l3 7 7 1-5 5 1 7-6-4-6 4 1-7-5-5 7-1z"></path><path d="M12 8l-2 4-4 1 3 3-1 4 4-2 4 2-1-4 3-3-4-1z"></path></svg>',
+            '<svg viewBox="0 0 24 24" fill="#E0CAEF" stroke="#B8A0D4" stroke-width="1.5" style="width: 24px; height: 24px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>',
+            '<svg viewBox="0 0 24 24" fill="#E0CAEF" stroke="#B8A0D4" stroke-width="1.5" style="width: 24px; height: 24px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>'
+        ];
+
+        // ===================================
+        // GLOBAL NAVIGATION LOGIC
+        // ===================================
+
+        // Function to update dashboard header icons
+        function updateDashboardHeaderIcons() {
+            // Update left icon to Party Popper
+            profileNavIcon.innerHTML = `
+                <path d="M5.8 11.3L2 22l10.7-3.79"></path>
+                <path d="M4 3h.01M22 8h.01M15 2h.01M18 5h.01M19 12h.01M21 15h.01M3 8h.01M7 3h.01M10 2h.01M13 5h.01"></path>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            `;
+            profileNavIcon.setAttribute('stroke', '#666');
+            profileNavIcon.setAttribute('stroke-width', '2');
+            profileNavIcon.setAttribute('fill', 'none');
+            
+            // Update right icon to User Profile
+            dashboardRightIcon.innerHTML = `
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            `;
+            dashboardRightIcon.setAttribute('stroke', '#666');
+            dashboardRightIcon.setAttribute('stroke-width', '2');
+            dashboardRightIcon.setAttribute('fill', 'none');
+        }
+
+        // Login form validation
+        function checkLoginForm() {
+            if (emailInput.value.trim() !== '' && passwordInput.value.trim() !== '') {
+                loginForm.classList.add('form-filled');
+            } else {
+                loginForm.classList.remove('form-filled');
+            }
+        }
+
+        emailInput.addEventListener('input', checkLoginForm);
+        passwordInput.addEventListener('input', checkLoginForm);
+
+        // Login functionality - go to select animal page
+        loginButton.addEventListener('click', () => {
+            if (emailInput.value.trim() !== '' && passwordInput.value.trim() !== '') {
+                loginPage.classList.add('hidden');
+                selectAnimalPage.classList.add('active');
+            }
+        });
+
+        // Animal selection
+        const animalItems = document.querySelectorAll('.animal-item');
+        animalItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove selected class from all items
+                animalItems.forEach(i => i.classList.remove('selected'));
+                
+                // Add selected class to clicked item
+                item.classList.add('selected');
+                selectedAnimal = item.dataset.animal;
+                
+                // Enable begin button
+                beginButton.classList.add('active');
+                beginButton.disabled = false;
+            });
+        });
+
+        // Begin button - go to main page
+        beginButton.addEventListener('click', () => {
+            if (selectedAnimal && !beginButton.disabled) {
+                selectAnimalPage.classList.remove('active');
+                selectAnimalPage.classList.add('hidden');
+                mainPage.classList.add('active');
+                
+                // Update dashboard header icons when entering dashboard
+                updateDashboardHeaderIcons();
+            }
+        });
+
+        // LEFT ICON CLICK - Navigate to Saved Praises
+        profileNavIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Set flag to indicate we came from dashboard
+            cameFromProfile = false;
+            
+            // Hide dashboard
+            mainPage.classList.remove('active');
+            mainPage.classList.add('hidden-left');
+            
+            // Show saved praises page
+            savedPraisesPage.classList.add('active');
+            
+            // Render the praise list
+            renderPraiseList();
+        });
+
+        // RIGHT ICON CLICK - Navigate to Profile
+        dashboardRightIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Hide dashboard
+            mainPage.classList.remove('active');
+            mainPage.classList.add('hidden-left');
+            
+            // Show profile page
+            profilePage.classList.add('active');
+            profilePage.classList.remove('hidden-right');
+        });
+
+        // BACK NAVIGATION - Profile Page to Dashboard
+        backButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Hide profile page
+            profilePage.classList.remove('active');
+            profilePage.classList.add('hidden-right');
+            
+            // Show dashboard
+            mainPage.classList.remove('hidden-left');
+            mainPage.classList.add('active');
+            
+            // Ensure header icons are correct
+            updateDashboardHeaderIcons();
+        });
+
+        // BACK NAVIGATION - Saved Praises to Dashboard (or Profile)
+        praisesBackButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Hide saved praises page
+            savedPraisesPage.classList.remove('active');
+            
+            if (cameFromProfile) {
+                // Go back to profile
+                profilePage.classList.remove('hidden-left');
+                cameFromProfile = false;
+            } else {
+                // Go back to dashboard
+                mainPage.classList.remove('hidden-left');
+                mainPage.classList.add('active');
+                updateDashboardHeaderIcons();
+            }
+        });
+
+        // UPDATE "Your Praises" LINK - Profile -> Saved Praises
+        yourPraisesLink.addEventListener('click', () => {
+            // Set flag to indicate we came from profile
+            cameFromProfile = true;
+            
+            // Hide profile page
+            profilePage.classList.add('hidden-left');
+            
+            // Show saved praises page
+            savedPraisesPage.classList.add('active');
+            
+            // Render the praise list
+            renderPraiseList();
+        });
+
+        // Get Praise functionality
+        praiseButton.addEventListener('click', () => {
+            if (!selectedAnimal || !hasCompletedTask) return;
+            
+            showPraiseCard();
+        });
+
+        function showPraiseCard() {
+            const animal = animals[selectedAnimal];
+            
+            praiseCard.innerHTML = `
+                <div class="praise-header">${animal.name} says:</div>
+                <div class="praise-animal-display" style="background: ${animal.color}">
+                    <span class="praise-animal-emoji">${animal.emoji}</span>
+                </div>
+                <div class="praise-body-text">Great job on completing your task! Every small step counts toward building better habits. Keep up the amazing work!</div>
+                <div class="praise-checkmark-button" id="praiseCheckmark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" style="width: 24px; height: 24px;">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+            `;
+            
+            praisePopup.classList.add('active');
+            
+            // Add click listener to checkmark button
+            const checkmarkBtn = document.getElementById('praiseCheckmark');
+            checkmarkBtn.addEventListener('click', () => {
+                // Show success message
+                praiseCard.innerHTML = `
+                    <div class="success-message">
+                        <div class="success-title">Well done! 🎉</div>
+                        <div class="success-subtitle">Your praise has been saved!</div>
+                    </div>
+                `;
+                
+                // Auto-close after showing success message
+                setTimeout(() => {
+                    praisePopup.classList.remove('active');
+                }, 2000);
+            });
+        }
+
+        function updatePraiseButton() {
+            if (hasCompletedTask) {
+                praiseButton.classList.add('visible');
+            } else {
+                praiseButton.classList.remove('visible');
+            }
+        }
+
+        // Logout functionality
+        logoutButton.addEventListener('click', () => {
+            mainPage.classList.remove('active');
+            mainPage.classList.remove('hidden-left');
+            profilePage.classList.remove('active');
+            profilePage.classList.add('hidden-right');
+            selectAnimalPage.classList.remove('hidden');
+            selectAnimalPage.classList.remove('active');
+            loginPage.classList.remove('hidden');
+            
+            // Reset login form
+            emailInput.value = '';
+            passwordInput.value = '';
+            loginForm.classList.remove('form-filled');
+            
+            // Reset animal selection
+            selectedAnimal = null;
+            animalItems.forEach(i => i.classList.remove('selected'));
+            beginButton.classList.remove('active');
+            beginButton.disabled = true;
+        });
+
+        // Show calendar modal
+        dateBadge.addEventListener('click', () => {
+            calendarModal.classList.add('active');
+            renderCalendar();
+        });
+
+        // Hide calendar modal
+        calendarModal.addEventListener('click', (e) => {
+            if (e.target === calendarModal) {
+                calendarModal.classList.remove('active');
+            }
+        });
+
+        // Calendar navigation
+        prevMonth.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        nextMonth.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            monthYear.textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const existingDays = calendarGrid.querySelectorAll('.calendar-day');
+            existingDays.forEach(day => day.remove());
+
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = daysInPrevMonth - i;
+                calendarGrid.appendChild(day);
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+
+                if (year === selectedDate.getFullYear() && 
+                    month === selectedDate.getMonth() && 
+                    i === selectedDate.getDate()) {
+                    day.classList.add('selected');
+                }
+
+                const today = new Date();
+                if (year === today.getFullYear() && 
+                    month === today.getMonth() && 
+                    i === today.getDate()) {
+                    day.classList.add('today');
+                }
+
+                day.addEventListener('click', () => {
+                    selectedDate = new Date(year, month, i);
+                    updateDateDisplay();
+                    calendarModal.classList.remove('active');
+                });
+
+                calendarGrid.appendChild(day);
+            }
+
+            const totalCells = firstDay + daysInMonth;
+            const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+            for (let i = 1; i <= remainingCells; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = i;
+                calendarGrid.appendChild(day);
+            }
+        }
+
+        function updateDateDisplay() {
+            const year = selectedDate.getFullYear();
+            const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+            const day = String(selectedDate.getDate()).padStart(2, '0');
+            dateText.textContent = `${year}.${month}.${day}`;
+        }
+
+        fab.addEventListener('click', () => {
+            isInputActive = !isInputActive;
+            if (isInputActive) {
+                inputContainer.classList.add('active');
+                keyboard.classList.add('active');
+                fab.classList.add('hidden');
+                inputField.focus();
+            } else {
+                closeInput();
+            }
+        });
+
+        function closeInput() {
+            inputContainer.classList.remove('active');
+            keyboard.classList.remove('active');
+            fab.classList.remove('hidden');
+            isInputActive = false;
+        }
+
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                const keyText = key.textContent;
+                if (keyText === '⌫') {
+                    inputField.value = inputField.value.slice(0, -1);
+                } else if (keyText === 'return') {
+                    if (inputField.value.trim()) {
+                        addListItem(inputField.value);
+                        inputField.value = '';
+                        closeInput();
+                    }
+                } else if (keyText === 'space') {
+                    inputField.value += ' ';
+                } else if (keyText !== '⇧' && keyText !== '123') {
+                    inputField.value += keyText.toLowerCase();
+                }
+            });
+        });
+
+        inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && inputField.value.trim()) {
+                addListItem(inputField.value);
+                inputField.value = '';
+                closeInput();
+            }
+        });
+
+        function addListItem(text) {
+            const item = document.createElement('div');
+            item.className = 'list-item';
+            let isCompleted = false;
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'list-item-wrapper';
+            
+            const content = document.createElement('div');
+            content.className = 'list-item-content';
+            
+            const taskCard = document.createElement('div');
+            taskCard.className = 'task-card';
+            
+            const checkbox = document.createElement('div');
+            checkbox.className = 'checkbox';
+            checkbox.innerHTML = `
+                <svg class="paw-check-icon" viewBox="0 0 24 24" fill="#000000">
+                    <circle cx="12" cy="10" r="2.5"></circle>
+                    <circle cx="7" cy="7" r="1.8"></circle>
+                    <circle cx="17" cy="7" r="1.8"></circle>
+                    <circle cx="7" cy="13" r="1.8"></circle>
+                    <circle cx="17" cy="13" r="1.8"></circle>
+                </svg>
+            `;
+            
+            // Checkbox click handler
+            checkbox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!isCompleted) {
+                    checkbox.classList.add('checked');
+                    taskCard.classList.add('completed');
+                    isCompleted = true;
+                    hasCompletedTask = true;
+                    updatePraiseButton();
+                }
+            });
+            
+            const itemText = document.createElement('div');
+            itemText.className = 'list-item-text';
+            itemText.textContent = text;
+            
+            taskCard.appendChild(checkbox);
+            taskCard.appendChild(itemText);
+            content.appendChild(taskCard);
+            
+            const deleteBtn = document.createElement('div');
+            deleteBtn.className = 'delete-button';
+            deleteBtn.innerHTML = `
+                <svg class="delete-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+            `;
+            
+            wrapper.appendChild(deleteBtn);
+            wrapper.appendChild(content);
+            item.appendChild(wrapper);
+            listItems.appendChild(item);
+            
+            completedTasks++;
+            
+            let startX = 0;
+            let currentX = 0;
+            let isSwiping = false;
+            
+            content.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isSwiping = true;
+            });
+            
+            content.addEventListener('touchmove', (e) => {
+                if (!isSwiping) return;
+                currentX = e.touches[0].clientX;
+                const diff = startX - currentX;
+                
+                if (diff > 0 && diff <= 80) {
+                    content.style.transform = `translateX(-${diff}px)`;
+                } else if (diff < 0) {
+                    content.style.transform = '';
+                }
+            });
+            
+            content.addEventListener('touchend', () => {
+                isSwiping = false;
+                const diff = startX - currentX;
+                
+                if (diff > 40) {
+                    item.classList.add('swiped');
+                } else {
+                    item.classList.remove('swiped');
+                    content.style.transform = '';
+                }
+            });
+            
+            content.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.checkbox')) return;
+                
+                startX = e.clientX;
+                isSwiping = true;
+                e.preventDefault();
+                
+                const onMouseMove = (e) => {
+                    if (!isSwiping) return;
+                    currentX = e.clientX;
+                    const diff = startX - currentX;
+                    
+                    if (diff > 0 && diff <= 80) {
+                        content.style.transform = `translateX(-${diff}px)`;
+                    } else if (diff < 0) {
+                        content.style.transform = '';
+                    }
+                };
+                
+                const onMouseUp = () => {
+                    isSwiping = false;
+                    const diff = startX - currentX;
+                    
+                    if (diff > 40) {
+                        item.classList.add('swiped');
+                    } else {
+                        item.classList.remove('swiped');
+                        content.style.transform = '';
+                    }
+                    
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                };
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+            
+            deleteBtn.addEventListener('click', () => {
+                item.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    item.remove();
+                    completedTasks--;
+                    
+                    // Check if any tasks are still completed
+                    const remainingCompleted = document.querySelectorAll('.checkbox.checked');
+                    if (remainingCompleted.length === 0) {
+                        hasCompletedTask = false;
+                        updatePraiseButton();
+                    }
+                }, 300);
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!item.contains(e.target)) {
+                    item.classList.remove('swiped');
+                    content.style.transform = '';
+                }
+            });
+        }
+
+        // Render praise list
+        function renderPraiseList() {
+            praiseListContent.innerHTML = '';
+            
+            savedPraises.forEach((praise, index) => {
+                const card = document.createElement('div');
+                card.className = 'praise-card-item';
+                
+                const randomIcon = praiseIcons[Math.floor(Math.random() * praiseIcons.length)];
+                
+                card.innerHTML = `
+                    <div class="praise-icon-circle">
+                        ${randomIcon}
+                    </div>
+                    <div class="praise-card-content">
+                        <div class="praise-card-text">${praise.text}</div>
+                        <div class="praise-card-footer">
+                            <span class="praise-card-animal">${praise.animal}</span>
+                            <span>${praise.date}</span>
+                        </div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => showPraiseDetail(praise));
+                praiseListContent.appendChild(card);
+            });
+        }
+
+        // Show praise detail modal
+        function showPraiseDetail(praise) {
+            praiseDetailCard.innerHTML = `
+                <svg class="praise-detail-icon" viewBox="0 0 24 24" fill="#4A4A4A">
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <circle cx="7" cy="7" r="2"></circle>
+                    <circle cx="17" cy="7" r="2"></circle>
+                    <circle cx="7" cy="13" r="2"></circle>
+                    <circle cx="17" cy="13" r="2"></circle>
+                </svg>
+                <div class="praise-detail-text">${praise.text}</div>
+                <div class="praise-detail-footer">
+                    <span class="praise-detail-signature">— ${praise.animal}</span>
+                    <span class="praise-detail-date">${praise.date}</span>
+                </div>
+            `;
+            
+            praiseDetailModal.classList.add('active');
+        }
+
+        // Close detail modal when clicking overlay
+        praiseDetailModal.addEventListener('click', (e) => {
+            if (e.target === praiseDetailModal) {
+                praiseDetailModal.classList.remove('active');
+            }
+        });
+
+        // Initialize
+        renderCalendar();
+        
+        console.log('✅ Global Navigation Logic Implemented');
+    </script>
+</body>
+</html>

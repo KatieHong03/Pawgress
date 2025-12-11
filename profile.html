@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawgress - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .page {
+            height: 100%;
+        }
+
+        .profile-header {
+            padding: 30px 20px 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-right: 30px;
+        }
+
+        .profile-title {
+            color: #6C6A66;
+            font-size: 30px;
+            font-family: 'Pacifico', cursive;
+            font-weight: 400;
+        }
+
+        .profile-paw {
+            width: 34.70px;
+            height: 34.70px;
+            position: absolute;
+            left: 145px;
+            top: 8px;
+        }
+
+        .profile-content {
+            padding: 20px;
+            overflow-y: auto;
+            height: calc(100% - 120px);
+        }
+
+        .premium-banner {
+            background: linear-gradient(135deg, rgba(224, 202, 239, 0.3), rgba(230, 215, 245, 0.3));
+            border: 2px solid #B8A0D4;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .premium-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .premium-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .section-header {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 12px;
+            margin-top: 10px;
+            padding-left: 4px;
+        }
+
+        .menu-group {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: #F9F9F9;
+        }
+
+        .menu-item-icon {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            margin-right: 16px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-item-label {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+            line-height: 24px;
+        }
+
+        .menu-item-arrow {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            color: #999;
+        }
+
+        .logout-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            color: #666;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .logout-button:hover {
+            color: #333;
+        }
+
+        .logout-icon {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page">
+            <div class="top-bar">
+                <div class="back-button" id="backButton">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="width: 20px; height: 20px;">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="profile-header">
+                <div class="logo-container">
+                    <div class="profile-title">My Profile</div>
+                    <img src="paw.jpg" alt="Paw" class="profile-paw">
+                </div>
+            </div>
+
+            <div class="profile-content">
+                <div class="premium-banner">
+                    <div class="premium-title">Premium Membership</div>
+                    <div class="premium-subtitle">Upgrade for more features</div>
+                </div>
+
+                <div class="section-header">Settings</div>
+                <div class="menu-group">
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="menu-item-label">Profile</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <div class="menu-item-label">Password</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <img src="notification.jpg" alt="Notifications" class="menu-item-icon" style="object-fit: cover;">
+                        <div class="menu-item-label">Notifications</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section-header">More</div>
+                <div class="menu-group">
+                    <div class="menu-item">
+                        <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <div class="menu-item-label">Rate & Review</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <img src="help.jpg" alt="Help" class="menu-item-icon" style="object-fit: cover;">
+                        <div class="menu-item-label">Help</div>
+                        <svg class="menu-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="logout-button" id="logoutButton">
+                    <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Log out</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        const backButton = document.getElementById('backButton');
+        const logoutButton = document.getElementById('logoutButton');
+
+        // Check authentication
+        if (!isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        // Back to dashboard
+        backButton.addEventListener('click', () => {
+            window.location.href = 'dashboard.html';
+        });
+
+        // Logout
+        logoutButton.addEventListener('click', () => {
+            clearUserData();
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

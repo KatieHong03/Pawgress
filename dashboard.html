@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawgress - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Crimson+Text:wght@400;600;700&family=Inter:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .page {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 30px 20px 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-right: 30px;
+        }
+
+        .dashboard-title {
+            color: #6C6A66;
+            font-size: 30px;
+            font-family: 'Pacifico', cursive;
+            font-weight: 400;
+        }
+
+        .dashboard-paw {
+            width: 34.70px;
+            height: 34.70px;
+            position: absolute;
+            left: 230px;
+            top: 8px;
+        }
+
+        .date-badge {
+            position: absolute;
+            left: 50%;
+            top: 50px;
+            transform: translateX(-50%);
+            width: 107px;
+            height: 27px;
+            background: #FAF3FF;
+            padding: 0;
+            border-radius: 9px;
+            border: 1px solid #E0CAEF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .date-badge:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .date-badge span {
+            color: #807D78;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0.50px;
+            text-align: center;
+        }
+
+        .calendar-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        .content {
+            padding: 20px;
+            min-height: 350px;
+            max-height: calc(100% - 250px);
+            overflow-y: auto;
+        }
+
+        .empty-state-message {
+            display: none;
+            text-align: center;
+            color: #6C6A66;
+            font-size: 20px;
+            font-family: 'Crimson Text', serif;
+            font-weight: 600;
+            line-height: 22px;
+            letter-spacing: 0.50px;
+            padding: 500px 20px 40px 20px;
+        }
+
+        .empty-state-message.with-icon {
+            padding-top: 20px;
+        }
+
+        .empty-state-icon {
+            width: 120px;
+            height: 120px;
+            margin: 320px auto 0 auto;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .empty-state-icon.visible {
+            display: block;
+        }
+
+        .empty-state-message.visible {
+            display: block;
+        }
+
+        .input-container {
+            background: white;
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+        }
+
+        .input-container.active {
+            display: flex;
+        }
+
+        .input-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #6C6A66;
+        }
+
+        .fab {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 64px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .fab:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .fab.hidden {
+            transform: translateX(-50%) scale(0);
+            opacity: 0;
+        }
+
+        .plus-icon {
+            font-size: 32px;
+            color: #7B68EE;
+            font-weight: 300;
+        }
+
+        .keyboard {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #D1D5DB;
+            padding: 8px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 50;
+        }
+
+        .keyboard.active {
+            transform: translateY(0);
+        }
+
+        .keyboard-toolbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            background: #F3F4F6;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 4px;
+        }
+
+        .toolbar-icon {
+            font-size: 12px;
+            padding: 4px 8px;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .key {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            min-width: 32px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            user-select: none;
+        }
+
+        .key:active {
+            background: #E5E7EB;
+        }
+
+        .key.wide {
+            flex: 1.5;
+        }
+
+        .key.space {
+            flex: 4;
+        }
+
+        .list-item {
+            background: transparent;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            animation: slideIn 0.3s ease;
+            position: relative;
+            overflow: visible;
+        }
+
+        .list-item-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-item-content {
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+            cursor: grab;
+        }
+
+        .list-item-content:active {
+            cursor: grabbing;
+        }
+
+        .list-item.swiped .list-item-content {
+            transform: translateX(-80px);
+        }
+
+        .task-card {
+            background: #FFFEF4;
+            border: 1px solid #E0CAEF;
+            border-radius: 15px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        .task-card.completed {
+            background: #FFF694;
+        }
+
+        .checkbox {
+            width: 39.48px;
+            height: 39.48px;
+            border: 1.5px solid #807D78;
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .checkbox:hover {
+            border-color: #6C6A66;
+            background: rgba(128, 125, 120, 0.05);
+        }
+
+        .checkbox.checked {
+            background: transparent;
+        }
+
+        .paw-check-icon {
+            width: 24px;
+            height: 24px;
+            display: none;
+        }
+
+        .checkbox.checked .paw-check-icon {
+            display: block;
+            animation: popIn 0.3s ease-out;
+        }
+
+        .list-item-text {
+            flex: 1;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: #6C6A66;
+            line-height: 1.4;
+        }
+
+        .delete-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            background: #9B87F5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 15px 15px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+            z-index: 1;
+        }
+
+        .delete-button:hover {
+            background: #8B77E5;
+        }
+
+        .delete-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .praise-button {
+            position: absolute;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            padding: 12px 24px;
+            background: linear-gradient(90deg, rgba(98, 0, 234, 0.3) 0%, rgba(0, 176, 255, 0.3) 100%);
+            border: none;
+            border-radius: 24px;
+            font-family: 'Crimson Text', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6C6A66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            z-index: 40;
+        }
+
+        .praise-button.visible {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        .praise-button:hover {
+            transform: translateX(-50%) scale(1.05) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(98, 0, 234, 0.2);
+        }
+
+        .praise-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .praise-popup {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .praise-popup.active {
+            display: flex;
+        }
+
+        .praise-card {
+            background: linear-gradient(90deg, rgba(98, 0, 234, 0.15) 15%, rgba(0, 176, 255, 0.15) 100%), #FAF3FF;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+            border-radius: 29px;
+            border: 1px #E0CAEF solid;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            animation: slideUpCard 0.4s ease-out;
+            position: relative;
+            max-width: 320px;
+        }
+
+        .praise-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .praise-animal-icon {
+            width: 60px;
+            height: 60px;
+        }
+
+        .praise-animal-name {
+            text-align: center;
+            color: #555CA3;
+            font-size: 20px;
+            font-family: 'Crimson Text', serif;
+            font-weight: 700;
+            word-wrap: break-word;
+        }
+
+        .praise-body-text {
+            color: #555CA3;
+            font-size: 16px;
+            font-family: 'Crimson Text', serif;
+            font-weight: 400;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .praise-checkmark-button {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            width: 48px;
+            height: 48px;
+            background: #FFFEF4;
+            box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.10);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .praise-checkmark-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, 0.15);
+        }
+
+        .praise-checkmark-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .praise-animal-display {
+            width: 100px;
+            height: 80px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .praise-animal-emoji {
+            font-size: 48px;
+        }
+
+        .praise-animal-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .success-message {
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+            position: relative;
+            overflow: visible;
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #6C6A66;
+            margin-bottom: 8px;
+            animation: gentleBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .success-subtitle {
+            font-size: 16px;
+            color: #6C6A66;
+            opacity: 0.8;
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes gentleBounce {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes sparkleRise {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(155, 135, 245, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(155, 135, 245, 0.6);
+            }
+        }
+
+        .calendar-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #FFFCD8;
+            display: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .calendar-modal.active {
+            display: block;
+        }
+
+        .calendar-title {
+            position: absolute;
+            left: 50px;
+            top: 114px;
+            width: 258px;
+            height: 47px;
+            text-align: center;
+            color: #6C6A66;
+            font-size: 30px;
+            font-family: Pacifico;
+            font-weight: 400;
+        }
+
+        .calendar-title-paw {
+            position: absolute;
+            left: 288px;
+            top: 114px;
+            width: 36px;
+            height: 36px;
+            transform: rotate(30deg);
+            transform-origin: top left;
+        }
+
+        .calendar-date-badge {
+            position: absolute;
+            left: 143px;
+            top: 50px;
+            width: 107px;
+            height: 27px;
+            background: #FAF3FF;
+            border-radius: 9px;
+            border: 1px #E0CAEF solid;
+        }
+
+        .calendar-date-text {
+            position: absolute;
+            left: 54px;
+            top: 55px;
+            width: 269px;
+            height: 22px;
+            text-align: center;
+            color: #807D78;
+            font-size: 12px;
+            font-family: Inter;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-date-icon {
+            position: absolute;
+            left: 225px;
+            top: 55px;
+            width: 14px;
+            height: 14px;
+        }
+
+        .calendar-container {
+            position: absolute;
+            left: 43px;
+            top: 202px;
+            width: 310px;
+            height: 446px;
+            background: #FAF3FF;
+            border-radius: 9px;
+            border: 1px #E0CAEF solid;
+            padding: 24px 16px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 36px;
+            margin-bottom: 24px;
+        }
+
+        .calendar-nav-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .calendar-month-year {
+            width: 118px;
+            text-align: center;
+            color: #6C6A66;
+            font-size: 16px;
+            font-family: Inter;
+            font-weight: 400;
+            line-height: 24px;
+            white-space: nowrap;
+        }
+
+        .calendar-weekdays {
+            display: flex;
+            justify-content: space-between;
+            height: 32px;
+            margin-bottom: 24px;
+        }
+
+        .calendar-weekday {
+            width: 36.28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #807D78;
+            font-size: 12px;
+            font-family: Inter;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            height: 260px;
+        }
+
+        .calendar-day {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #6C6A66;
+            font-size: 16px;
+            font-family: Inter;
+            font-weight: 400;
+            line-height: 24px;
+            transition: background 0.2s ease;
+        }
+
+        .calendar-day:hover:not(.other-month) {
+            background: rgba(155, 135, 245, 0.15);
+        }
+
+        .calendar-day.other-month {
+            color: #C0C0C0;
+        }
+
+        .calendar-day.selected {
+            background: #6B5CFF;
+            color: white;
+        }
+
+        .calendar-day.selected:hover {
+            background: #6B5CFF;
+        }
+
+        .calendar-back-btn {
+            position: absolute;
+            left: 176px;
+            top: 687px;
+            width: 44px;
+            height: 44px;
+            background: #FAF3FF;
+            box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.10);
+            border-radius: 50%;
+            border: 1px #E0CAEF solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .calendar-back-btn:hover {
+            background: #F0E8FF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page">
+            <div class="top-bar">
+                <img src="celebrate1.jpg" alt="Celebrate" class="icon" id="savedPraisesIcon" style="object-fit: cover; width: 28px; height: 28px;">
+                
+                <div class="date-badge" id="dateBadge">
+                    <span id="dateText">2025.12.05</span>
+                    <img src="calendar.jpg" alt="Calendar" class="calendar-icon" style="object-fit: cover;">
+                </div>
+
+                <img src="me.jpg" alt="Profile" class="icon" id="profileIcon" style="object-fit: cover; width: 28px; height: 28px;">
+            </div>
+
+            <div class="header">
+                <div class="logo-container">
+                    <div class="dashboard-title">Today's Done List</div>
+                    <img src="paw.jpg" alt="Paw" class="dashboard-paw">
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="input-container" id="inputContainer">
+                    <input type="text" class="input-field" id="inputField" placeholder="What did you accomplish today?">
+                </div>
+                <div id="listItems"></div>
+                <img class="empty-state-icon" id="emptyStateIcon" alt="Animal">
+                <div class="empty-state-message" id="emptyStateMessage">What did you get done today?</div>
+            </div>
+
+            <div class="fab" id="fab">
+                <div class="plus-icon">+</div>
+            </div>
+
+            <button class="praise-button" id="praiseButton">
+                <img src="ai.jpg" alt="AI" class="praise-icon" style="object-fit: cover; border-radius: 50%;">
+                Get Praise
+            </button>
+
+            <div class="keyboard" id="keyboard">
+                <div class="keyboard-toolbar">
+                    <div class="toolbar-icon">GIF</div>
+                    <div class="toolbar-icon">⚙️</div>
+                    <div class="toolbar-icon">🌐</div>
+                    <div class="toolbar-icon">😊</div>
+                    <div class="toolbar-icon">🎤</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">Q</div>
+                    <div class="key">W</div>
+                    <div class="key">E</div>
+                    <div class="key">R</div>
+                    <div class="key">T</div>
+                    <div class="key">Y</div>
+                    <div class="key">U</div>
+                    <div class="key">I</div>
+                    <div class="key">O</div>
+                    <div class="key">P</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">A</div>
+                    <div class="key">S</div>
+                    <div class="key">D</div>
+                    <div class="key">F</div>
+                    <div class="key">G</div>
+                    <div class="key">H</div>
+                    <div class="key">J</div>
+                    <div class="key">K</div>
+                    <div class="key">L</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wide">⇧</div>
+                    <div class="key">Z</div>
+                    <div class="key">X</div>
+                    <div class="key">C</div>
+                    <div class="key">V</div>
+                    <div class="key">B</div>
+                    <div class="key">N</div>
+                    <div class="key">M</div>
+                    <div class="key wide">⌫</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wide">123</div>
+                    <div class="key space">space</div>
+                    <div class="key wide">return</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="praise-popup" id="praisePopup">
+            <div class="praise-card" id="praiseCard"></div>
+        </div>
+
+        <div class="calendar-modal" id="calendarModal">
+            <div class="calendar-title">Choose a Day</div>
+            <img src="paw.jpg" alt="Paw" class="calendar-title-paw">
+            
+            <div class="calendar-date-badge"></div>
+            <div class="calendar-date-text" id="calendarDateText">2025.12.05</div>
+            <img src="calendar.jpg" alt="Calendar" class="calendar-date-icon">
+            
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="calendar-nav-btn" id="prevMonth">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#6C6A66" stroke-width="1.67" style="width: 20px; height: 20px;">
+                            <path d="M12.5 5 l-5 5 l5 5"></path>
+                        </svg>
+                    </div>
+                    <div class="calendar-month-year" id="monthYear">December 2025</div>
+                    <div class="calendar-nav-btn" id="nextMonth">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#6C6A66" stroke-width="1.67" style="width: 20px; height: 20px;">
+                            <path d="M7.5 5 l5 5 l-5 5"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="calendar-weekdays">
+                    <div class="calendar-weekday">Sun</div>
+                    <div class="calendar-weekday">Mon</div>
+                    <div class="calendar-weekday">Tue</div>
+                    <div class="calendar-weekday">Wed</div>
+                    <div class="calendar-weekday">Thu</div>
+                    <div class="calendar-weekday">Fri</div>
+                    <div class="calendar-weekday">Sat</div>
+                </div>
+                
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+            
+            <div class="calendar-back-btn" id="calendarBackBtn">
+                <svg viewBox="0 0 16 16" fill="none" stroke="#807D78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;">
+                    <path d="M3 8 L6.5 11.5 L13 4.5"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawgress - Your Praises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .saved-praises-page {
+            height: 100%;
+            background: #FFFCD8;
+            overflow-y: auto;
+        }
+
+        .praise-list-header {
+            padding: 30px 20px 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-right: 30px;
+        }
+
+        .praise-title {
+            color: #6C6A66;
+            font-size: 30px;
+            font-family: 'Pacifico', cursive;
+            font-weight: 400;
+        }
+
+        .praise-paw {
+            width: 34.70px;
+            height: 34.70px;
+            position: absolute;
+            left: 165px;
+            top: 8px;
+        }
+
+        .praise-list-content {
+            padding: 20px;
+        }
+
+        .praise-card-item {
+            background: #FFFEF4;
+            border: 1px solid #E0CAEF;
+            border-radius: 15px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .praise-card-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .praise-icon-circle {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            border-radius: 50%;
+            background: rgba(224, 202, 239, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .praise-card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .praise-card-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 15px;
+            color: #4A4A4A;
+            line-height: 1.5;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .praise-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .praise-card-animal {
+            font-weight: 600;
+            color: #6C6A66;
+        }
+
+        .praise-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .praise-detail-modal.active {
+            display: flex;
+        }
+
+        .praise-detail-card {
+            background: #FFFFFF;
+            border: 2px solid #E0CAEF;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            animation: modalPopIn 0.3s ease-out;
+        }
+
+        .praise-detail-icon {
+            width: 64px;
+            height: 64px;
+        }
+
+        .praise-detail-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 17px;
+            color: #4A4A4A;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .praise-detail-footer {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Crimson Text', serif;
+            font-size: 14px;
+            color: #6C6A66;
+        }
+
+        .praise-detail-signature {
+            font-weight: 600;
+        }
+
+        .praise-detail-date {
+            color: #999;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            color: #6C6A66;
+        }
+
+        .empty-state-text {
+            font-size: 18px;
+            color: #6C6A66;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="saved-praises-page">
+            <div class="top-bar">
+                <div class="back-button" id="praisesBackButton">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="width: 20px; height: 20px;">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="praise-list-header">
+                <div class="logo-container">
+                    <div class="praise-title">Your Praises</div>
+                    <img src="paw.jpg" alt="Paw" class="praise-paw">
+                </div>
+            </div>
+
+            <div class="praise-list-content" id="praiseListContent">
+                <!-- Praise cards will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <div class="praise-detail-modal" id="praiseDetailModal">
+            <div class="praise-detail-card" id="praiseDetailCard">
+                <!-- Detail content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        const praisesBackButton = document.getElementById('praisesBackButton');
+        const praiseListContent = document.getElementById('praiseListContent');
+        const praiseDetailModal = document.getElementById('praiseDetailModal');
+        const praiseDetailCard = document.getElementById('praiseDetailCard');
+
+        // Check authentication
+        if (!isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        // Get the referrer to determine where to go back
+        const referrer = document.referrer;
+        const fromProfile = referrer.includes('profile.html');
+
+        // Back button handler
+        praisesBackButton.addEventListener('click', () => {
+            if (fromProfile) {
+                window.location.href = 'profile.html';
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        // Render praise list
+        function renderPraiseList() {
+            const savedPraises = getSavedPraises();
+            
+            if (savedPraises.length === 0) {
+                praiseListContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon"><img src="paw.jpg" alt="Paw" style="width: 64px; height: 64px; object-fit: cover;"></div>
+                        <div class="empty-state-text">No praises yet!<br>Complete tasks to earn praises.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            praiseListContent.innerHTML = '';
+            
+            savedPraises.forEach((praise, index) => {
+                const card = document.createElement('div');
+                card.className = 'praise-card-item';
+                
+                const randomIcon = getRandomPraiseIcon();
+                
+                card.innerHTML = `
+                    <div class="praise-icon-circle">
+                        ${randomIcon}
+                    </div>
+                    <div class="praise-card-content">
+                        <div class="praise-card-text">${praise.message || praise.text}</div>
+                        <div class="praise-card-footer">
+                            <span class="praise-card-animal">${praise.animal}</span>
+                            <span>${praise.date}</span>
+                        </div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => showPraiseDetail(praise));
+                praiseListContent.appendChild(card);
+            });
+        }
+
+        // Show praise detail modal
+        function showPraiseDetail(praise) {
+            praiseDetailCard.innerHTML = `
+                <img src="paw.jpg" alt="Paw" class="praise-detail-icon" style="width: 64px; height: 64px; object-fit: cover;">
+                <div class="praise-detail-text">${praise.message || praise.text}</div>
+                <div class="praise-detail-footer">
+                    <span class="praise-detail-signature">— ${praise.animal}</span>
+                    <span class="praise-detail-date">${praise.date}</span>
+                </div>
+            `;
+            
+            praiseDetailModal.classList.add('active');
+        }
+
+        // Close detail modal when clicking overlay
+        praiseDetailModal.addEventListener('click', (e) => {
+            if (e.target === praiseDetailModal) {
+                praiseDetailModal.classList.remove('active');
+            }
+        });
+
+        // Initialize
+        renderPraiseList();
+    </script>
+</body>
+</html>

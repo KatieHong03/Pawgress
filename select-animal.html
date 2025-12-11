@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawgress - Select Your Animal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: #FFFCD8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background: #FFFCD8;
+        }
+
+        .select-animal-page {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: #FFFCD8;
+            overflow: hidden;
+        }
+
+        .select-animal-container {
+            width: 337px;
+            height: 575px;
+            position: absolute;
+            left: 25px;
+            top: 154px;
+            background: rgba(255, 255, 255, 0.40);
+            border-radius: 30px;
+        }
+
+        .select-animal-title {
+            width: 211px;
+            height: 117px;
+            position: absolute;
+            left: 91px;
+            top: 166px;
+            text-align: center;
+            color: #6C6A66;
+            font-size: 25px;
+            font-family: 'Crimson Text', serif;
+            font-weight: 700;
+        }
+
+        .animal-item {
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .animal-item:hover .animal-icon-box {
+            opacity: 0.8;
+        }
+
+        .animal-icon-box {
+            width: 89px;
+            height: 58px;
+            border-radius: 10px;
+            position: absolute;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .animal-item.selected .animal-icon-box {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #9B87F5;
+        }
+
+        .animal-icon-box.koko {
+            left: 66px;
+            top: 267px;
+            background: #D0E7E8;
+        }
+
+        .animal-item.selected .animal-icon-box.koko {
+            width: 261px;
+            height: 58px;
+            left: 66px;
+            top: 267px;
+        }
+
+        .animal-icon-box.bobo {
+            left: 66px;
+            top: 345px;
+            background: #D6D0E8;
+        }
+
+        .animal-item.selected .animal-icon-box.bobo {
+            width: 261px;
+            height: 58px;
+            left: 66px;
+            top: 345px;
+        }
+
+        .animal-icon-box.gigi {
+            left: 66px;
+            top: 423px;
+            background: #E8D0DC;
+        }
+
+        .animal-item.selected .animal-icon-box.gigi {
+            width: 261px;
+            height: 58px;
+            left: 66px;
+            top: 423px;
+        }
+
+        .animal-icon-box.fifi {
+            left: 66px;
+            top: 501px;
+            background: #D0E8DA;
+        }
+
+        .animal-item.selected .animal-icon-box.fifi {
+            width: 261px;
+            height: 58px;
+            left: 66px;
+            top: 501px;
+        }
+
+        .animal-image {
+            position: absolute;
+            object-fit: cover;
+        }
+
+        .animal-image.koko {
+            width: 68px;
+            height: 68px;
+            left: 77px;
+            top: 262px;
+        }
+
+        .animal-image.bobo {
+            width: 53px;
+            height: 56px;
+            left: 88px;
+            top: 347px;
+        }
+
+        .animal-image.gigi {
+            width: 55px;
+            height: 61px;
+            left: 81px;
+            top: 422px;
+        }
+
+        .animal-image.fifi {
+            width: 65px;
+            height: 55px;
+            left: 78px;
+            top: 502px;
+        }
+
+        .animal-name {
+            width: 151px;
+            height: 32px;
+            position: absolute;
+            left: 173px;
+            text-align: center;
+            color: #6C6A66;
+            font-size: 25px;
+            font-family: 'Crimson Text', serif;
+            font-weight: 700;
+        }
+
+        .animal-name.koko {
+            top: 280px;
+        }
+
+        .animal-name.bobo {
+            top: 359px;
+        }
+
+        .animal-name.gigi {
+            top: 436px;
+        }
+
+        .animal-name.fifi {
+            top: 513px;
+        }
+
+        .begin-button-wrapper {
+            width: 261px;
+            height: 58px;
+            position: absolute;
+            left: 66px;
+            top: 597px;
+        }
+
+        .begin-button {
+            width: 261px;
+            height: 58px;
+            background: #E0CAEF;
+            border-radius: 10px;
+            border: none;
+            cursor: not-allowed;
+            position: relative;
+            transition: all 0.3s;
+            opacity: 0.7;
+        }
+
+        .begin-button.active {
+            cursor: pointer;
+            opacity: 1;
+            background: #9B87F5;
+        }
+
+        .begin-button.active:hover {
+            background: #8B77E5;
+        }
+
+        .begin-button-text {
+            width: 211px;
+            height: 39px;
+            position: absolute;
+            left: 22px;
+            top: 9px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            font-size: 20px;
+            font-family: 'Crimson Text', serif;
+            font-weight: 700;
+        }
+
+        .begin-button-icon {
+            width: 23.10px;
+            height: 23.10px;
+            position: absolute;
+            left: 150px;
+            top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="select-animal-page">
+            <!-- White padding container -->
+            <div class="select-animal-container"></div>
+            
+            <!-- Title -->
+            <h1 class="select-animal-title">Select Your<br>Company Animal</h1>
+            
+            <!-- Koko -->
+            <div class="animal-item koko" data-animal="koko">
+                <div class="animal-icon-box koko"></div>
+                <img src="koko.jpg" alt="Koko" class="animal-image koko">
+                <div class="animal-name koko">Koko</div>
+            </div>
+
+            <!-- Bobo -->
+            <div class="animal-item bobo" data-animal="bobo">
+                <div class="animal-icon-box bobo"></div>
+                <img src="bobo.jpg" alt="Bobo" class="animal-image bobo">
+                <div class="animal-name bobo">Bobo</div>
+            </div>
+
+            <!-- Gigi -->
+            <div class="animal-item gigi" data-animal="gigi">
+                <div class="animal-icon-box gigi"></div>
+                <img src="gigi.jpg" alt="Gigi" class="animal-image gigi">
+                <div class="animal-name gigi">Gigi</div>
+            </div>
+
+            <!-- Fifi -->
+            <div class="animal-item fifi" data-animal="fifi">
+                <div class="animal-icon-box fifi"></div>
+                <img src="fifi.jpg" alt="Fifi" class="animal-image fifi">
+                <div class="animal-name fifi">Fifi</div>
+            </div>
+
+            <!-- Begin button -->
+            <div class="begin-button-wrapper">
+                <button class="begin-button" id="beginButton" disabled>
+                    <div class="begin-button-text">Begin</div>
+                    <img src="pawwhite.jpg" alt="Paw" class="begin-button-icon">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        const beginButton = document.getElementById('beginButton');
+        const animalItems = document.querySelectorAll('.animal-item');
+        let selectedAnimal = null;
+
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        // Animal selection
+        animalItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove selected class from all items
+                animalItems.forEach(i => i.classList.remove('selected'));
+                
+                // Add selected class to clicked item
+                item.classList.add('selected');
+                selectedAnimal = item.dataset.animal;
+                
+                // Enable begin button
+                beginButton.classList.add('active');
+                beginButton.disabled = false;
+            });
+        });
+
+        // Begin button - go to dashboard
+        beginButton.addEventListener('click', () => {
+            if (selectedAnimal && !beginButton.disabled) {
+                setSelectedAnimal(selectedAnimal);
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
